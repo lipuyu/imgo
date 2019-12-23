@@ -1,2 +1,3 @@
 *.yml
 static/*
+go.sum
