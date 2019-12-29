@@ -1,8 +1,0 @@
-github.com/go-redis/redis
-github.com/whiteshtef/clockwork
-github.com/muesli/cache2go
-github.com/go-sql-driver/mysql
-github.com/go-xorm/xorm
-github.com/kataras/iris
-github.com/olivere/elastic/v7
-github.com/aliyun/aliyun-oss-go-sdk/oss
