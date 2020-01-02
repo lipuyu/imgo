@@ -21,9 +21,9 @@ func newApp() *iris.Application {
 	app.Use(recover.New())
 	app.Use(logger.New())
 	// 解决跨域问题
-	allowAllOrigins:= func(ctx iris.Context) {
-		ctx.Header("Access-Control-Allow-Origin", "*") // <- HERE
-		ctx.Header("Access-Control-Allow-Headers","ticket, Content-Type, app") // <- HERE
+	allowAllOrigins := func(ctx iris.Context) {
+		ctx.Header("Access-Control-Allow-Origin", "*")                                         // <- HERE
+		ctx.Header("Access-Control-Allow-Headers", "ticket, Content-Type, app, authorization") // <- HERE
 		ctx.Header("Access-Control-Allow-Methods", "DELETE, GET, OPTIONS, PATCH, POST, PUT")
 		if ctx.Method() != "OPTIONS" {
 			ctx.Next()

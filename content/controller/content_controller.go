@@ -11,13 +11,13 @@ import (
 	"strconv"
 )
 
-type ContentController struct{
+type ContentController struct {
 	Ctx iris.Context
 }
 
 func (c *ContentController) Get() interface{} {
 	topics := make([]model.Topic, 0)
-	if err := conf.Orm.Desc("id").Find(&topics); err == nil {
+	if err := conf.Orm.Limit(10, 0).Desc("id").Find(&topics); err == nil {
 		return er.Data(map[string][]model.Topic{"topics": topics})
 	} else {
 		return er.SourceNotExistError
@@ -42,7 +42,7 @@ func (c *ContentController) GetBy(id int64) interface{} {
 	topic := model.Topic{Id: id}
 	if ok, _ := conf.Orm.Get(&topic); ok {
 		return er.Data(map[string]model.Topic{"topic": topic})
-	} else  {
+	} else {
 		return er.SourceNotExistError
 	}
 }
@@ -52,7 +52,7 @@ func (c *ContentController) PostByComment(id int64) interface{} {
 	c.Ctx.ReadJSON(&jsonData)
 	comment, _ := jsonData["comment"]
 	var ids []int64
-	if results, err := conf.Redis.SMembers(datalayer.GetBookContentKey(id)).Result();  err == nil{
+	if results, err := conf.Redis.SMembers(datalayer.GetBookContentKey(id)).Result(); err == nil {
 		for _, val := range results {
 			if id, err := strconv.ParseInt(val, 10, 64); err == nil {
 				ids = append(ids, id)

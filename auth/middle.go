@@ -11,17 +11,17 @@ import (
 
 func Before(ctx iris.Context) {
 	/*
-	shareInformation := "this is a sharable information between handlers"
-	requestPath := ctx.Path()
-	println("Before the indexHandler or contactHandler: " + requestPath)
-	ctx.Values().Set("info", shareInformation)
+		shareInformation := "this is a sharable information between handlers"
+		requestPath := ctx.Path()
+		println("Before the indexHandler or contactHandler: " + requestPath)
+		ctx.Values().Set("info", shareInformation)
 	*/
 	path := ctx.GetCurrentRoute().ResolvePath()
 	ticket := ctx.GetHeader("ticket")
 	app := ctx.GetHeader("app")
 
 	// websocket 信息进行特殊处理
-	if strings.HasPrefix(path,"/websocket") {
+	if strings.HasPrefix(path, "/websocket") {
 		ticket, _ = ctx.URLParams()["ticket"]
 		app, _ = ctx.URLParams()["app"]
 	}
@@ -33,9 +33,9 @@ func Before(ctx iris.Context) {
 		user = model.User{}
 	} else {
 		token := model.Token{Ticket: ticket}
-		if g, err := conf.Orm.Get(&token);  err == nil && g {
+		if g, err := conf.Orm.Get(&token); err == nil && g {
 			user = model.User{Id: token.UserId}
-			if c, err := conf.Orm.Get(&user); err != nil || !c{
+			if c, err := conf.Orm.Get(&user); err != nil || !c {
 				user = model.User{}
 			}
 		} else {
@@ -45,8 +45,8 @@ func Before(ctx iris.Context) {
 	ctx.Values().Set("user", user)
 
 	// URL 拦截
-	if (app == "stouch" && user.Id != 0) || path == "/storage/token" || path == "/" ||
-		ctx.Method() == "OPTIONS" || strings.HasPrefix(path, "/user/sign") ||
+	if (app == "stouch" && user.Id != 0) || path == "/storage/token" || path == "/storage/picture/editor" ||
+		path == "/" || ctx.Method() == "OPTIONS" || strings.HasPrefix(path, "/user/sign") ||
 		strings.HasPrefix(path, "/web/") {
 		ctx.Next()
 	} else {
