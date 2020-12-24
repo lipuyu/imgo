@@ -2,7 +2,7 @@ package controller
 
 import (
 	"github.com/kataras/iris"
-	"stouch_server/common/er"
+	"stouch_server/common/base"
 )
 
 type AppConfController struct{
@@ -10,5 +10,5 @@ type AppConfController struct{
 }
 
 func (c *AppConfController) GetCdn() interface{} {
-	return er.Data(map[string]string{"cdn": "http://airport.xiaorere.com"})
+	return re.NewByData(iris.Map{"cdn": "http://airport.xiaorere.com"})
 }

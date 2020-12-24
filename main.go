@@ -49,7 +49,7 @@ func main() {
 	websock.SetupWebsocket(app) // websocket 服务
 	app.UseGlobal(auth.Before)
 	go conf.Run()
-	err := app.Run(iris.Addr("0.0.0.0:8080"), iris.WithConfiguration(conf.Config))
+	err := app.Run(iris.Addr("0.0.0.0:8000"), iris.WithConfiguration(conf.Config))
 	if err != nil {
 		fmt.Println(err)
 	}

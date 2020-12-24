@@ -1,7 +1,12 @@
 package model
 
-import "stouch_server/conf"
+import (
+	"fmt"
+	"stouch_server/conf"
+)
 
 func init(){
-	conf.Orm.Sync2(new(Picture))
+	if err := conf.Orm.Sync2(new(Picture)); err != nil {
+		fmt.Println(err)
+	}
 }

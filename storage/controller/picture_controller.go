@@ -6,6 +6,7 @@ import (
 	_ "image/gif"
 	_ "image/jpeg"
 	_ "image/png"
+	"stouch_server/common/base"
 	"stouch_server/common/er"
 	"stouch_server/common/utils"
 	"stouch_server/conf"
@@ -21,7 +22,7 @@ type PictureController struct {
 func (c *PictureController) GetBy(id int64) interface{} {
 	picture := model.Picture{Id: id}
 	if ok, _ := conf.Orm.Get(&picture); ok {
-		return er.Data(map[string]model.Picture{"picture": picture})
+		return re.NewByData(map[string]model.Picture{"picture": picture})
 	} else {
 		return er.SourceNotExistError
 	}
@@ -48,7 +49,7 @@ func (c *PictureController) Post() interface{} {
 			conf.Logger.Error(err)
 		}
 	}
-	return er.Data(map[string]model.Picture{"picture": *picture})
+	return re.NewByData(iris.Map{"picture": *picture})
 }
 
 func (c *PictureController) PostEditor() interface{} {
@@ -72,5 +73,5 @@ func (c *PictureController) PostEditor() interface{} {
 			conf.Logger.Error(err)
 		}
 	}
-	return map[string]string{"default": "https://lipuyu.oss-cn-shanghai.aliyuncs.com/" + picture.Md5 + "." + picture.Format}
+	return iris.Map{"default": "https://lipuyu.oss-cn-shanghai.aliyuncs.com/" + picture.Md5 + "." + picture.Format}
 }

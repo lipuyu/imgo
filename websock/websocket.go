@@ -26,12 +26,17 @@ func SetupWebsocket(app *iris.Application) {
 
 var connMap = map[int64]websocket.Connection{}
 
-func Send(ids []int64, message string)  {
+func Send(ids []int64, message string) []int64 {
+	var closeIds []int64
 	for _, id := range ids {
 		if conn, ok := connMap[id]; ok {
-			conn.Write(1, []byte(message))
+			if err := conn.Write(1, []byte(message)); err != nil {
+			}
+		} else {
+			closeIds = append(closeIds, id)
 		}
 	}
+	return closeIds
 }
 
 func handleConnection(conn websocket.Connection) {

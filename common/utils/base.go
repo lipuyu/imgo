@@ -33,3 +33,11 @@ func If(ok bool, a interface{}, b interface{}) interface{} {
 		return b
 	}
 }
+
+func TransIntsToInterface(slice []int64) []interface{} {
+	s := make([]interface{}, len(slice))
+	for i, v := range slice {
+		s[i] = v
+	}
+	return s
+}
